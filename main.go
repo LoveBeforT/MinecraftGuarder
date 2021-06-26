@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"os/exec"
 	"strings"
@@ -20,18 +21,18 @@ func main() {
 
 	for {
 		time.Sleep(15 * time.Second)
-		fmt.Println("Scaning server ...")
+		log.Println("Scaning server ...")
 		cmd := exec.Command("bash", "-c", "ps aux | grep java")
 		if result, err = cmd.Output(); err != nil {
-			fmt.Println(err)
+			log.Println(err)
 			os.Exit(1)
 		}
 
 		if !strings.Contains(string(result), server_file) {
-			fmt.Println("Server not found , try to restart server ...")
+			log.Println("Server not found , try to restart server ...")
 			cmd = exec.Command("bash", "-c", server_script)
 			if _, err = cmd.Output(); err != nil {
-				fmt.Println("restart server failed!", err)
+				log.Println("restart server failed!", err)
 			}
 		}
 	}
